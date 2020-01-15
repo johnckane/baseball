@@ -1,0 +1,67 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+library(Lahman)
+library(tidyverse)
+data(Batting)
+```
+
+```{r}
+head(Batting)
+```
+
+
+```{r}
+batting_average <-
+  Batting %>%
+  filter(AB > 3.1*154) %>%
+  mutate(ba = H/AB,
+         slg = ((H-X2B-X3B-HR) + 2*X2B + 3*X3B + 4*HR)/AB,
+         obp = (H+BB+IBB+HBP)/(AB+BB+IBB+HBP+SH+SF)) %>%
+  mutate(ops = obp + slg)
+```
+
+```{r}
+max(batting_average$obp)
+```
+
+```{r}
+nineteen92 <- 
+  batting_average %>%
+  filter(yearID == 1992)
+```
+
+```{r}
+head(nineteen92)
+```
+
+```{r}
+ecdf(nineteen92$ba)(.300)
+```
+
+```{r}
+quantile(nineteen92$obp,.7878788)
+```
+
+```{r}
+quantile(nineteen92$slg,.7878788)
+```
+
+```{r}
+quantile(nineteen92$ops,.7878788)
+```
+
+```{r}
+ecdf(nineteen92$ba)(.330)
+```
+
+```{r}
+quantile(nineteen92$obp,.979798)
+quantile(nineteen92$slg,.979798)
+quantile(nineteen92$ops,.979798)
+```
+
+
